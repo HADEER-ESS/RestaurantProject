@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, TextInput, View} from 'react-native';
+import {StyleSheet, TextInput, View, TouchableOpacity} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/dist/MaterialIcons';
 
 const Search = ({fun, text}) => {
@@ -11,7 +11,9 @@ const Search = ({fun, text}) => {
         value={text}
         onChangeText={txt => fun(txt)}
       />
-      <MaterialIcons name="close" color="#000000" size={19} />
+      <TouchableOpacity onPress={() => fun('')}>
+        <MaterialIcons name="close" color="#000000" size={19} />
+      </TouchableOpacity>
     </View>
   );
 };

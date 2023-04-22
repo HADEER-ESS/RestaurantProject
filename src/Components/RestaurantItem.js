@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  ActivityIndicator,
   Dimensions,
   ImageBackground,
   ScrollView,
@@ -13,50 +14,57 @@ import restaurantsData from '../FetchData/index';
 import {useQuery} from 'react-query';
 import {useNavigation} from '@react-navigation/native';
 
-const RestaurantItem = ({ResPrice, flow}) => {
+const RestaurantItem = ({ResPrice, flow, searchContent}) => {
   const {data, isLoading, isError} = useQuery(
     ['RestaurantData'],
     restaurantsData,
   );
   const navigation = useNavigation();
-  const restauratsName = [
-    {name: 'Rest A', price: '$'},
-    {name: 'Rest B', price: '$$'},
-    {name: 'Rest C', price: '$$$'},
-    {name: 'Rest D', price: '$'},
-    {name: 'Rest E', price: '$$'},
-    {name: 'Rest F', price: '$$$'},
-    {name: 'Rest G', price: '$'},
-    {name: 'Rest H', price: '$$'},
-    {name: 'Rest I', price: '$$$'},
-  ];
+  if (isLoading) {
+    return <ActivityIndicator color={'#000'} size={'large'} />;
+  } else if (isError) {
+    return <Text>Something Went Wrong</Text>;
+  }
   return (
     <View
       style={{
         flexDirection: flow ? 'column' : 'row',
         flexWrap: flow ? 'nowrap' : 'wrap',
-        justifyContent: 'space-between',
       }}>
-      {restauratsName.map(
-        (item, index) =>
+      {data.map(
+        item =>
           item.price == ResPrice && (
             <TouchableOpacity
+              testID="RestaurantComponent"
               onPress={() => {
-                navigation.navigate('Details', {restaurantID: item.name});
+                navigation.navigate('Details', {restaurantID: item.id});
               }}
-              key={index}
+              key={item.id}
               style={{
-                width: flow ? '90%' : 160,
-                borderColor: '#000000',
-                borderWidth: 2,
-                borderRadius: 3,
+                width: flow ? '90%' : '46%',
                 margin: 7,
                 padding: 3,
               }}>
               <ImageBackground
-                source={require('../../assets/image.png')}
+                source={{uri: item.image_url}}
                 style={styles.ImageStyle}>
-                <Text style={styles.textStyle}>{item.name}</Text>
+                <Text
+                  style={[
+                    styles.textStyle,
+                    {color: '#ffffff', fontWeight: '700', marginVertical: 13},
+                  ]}>
+                  {item.name}
+                </Text>
+                <View
+                  style={[
+                    styles.ratingRes,
+                    {flexDirection: flow ? 'row' : 'column'},
+                  ]}>
+                  <Text style={styles.textStyle}>{item.rating} Stars,</Text>
+                  <Text style={styles.textStyle}>
+                    {item.review_count} Reviews
+                  </Text>
+                </View>
               </ImageBackground>
             </TouchableOpacity>
           ),
@@ -69,10 +77,19 @@ export default RestaurantItem;
 
 const styles = StyleSheet.create({
   ImageStyle: {
-    height: 75,
+    resizeMode: 'contain',
   },
   textStyle: {
     fontSize: 23,
     color: '#000000',
+    paddingHorizontal: 7,
+  },
+  ratingRes: {
+    backgroundColor: '#ffffff',
+    borderWidth: 1,
+    borderRadius: 7,
+    paddingHorizontal: 5,
+    marginHorizontal: 11,
+    marginBottom: 23,
   },
 });
