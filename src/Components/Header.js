@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
   HeaderStyle: {
     flexDirection: 'row',
     alignItems: 'center',
+    padding: 17,
     // justifyContent: 'space-around',
   },
   IconBackground: {

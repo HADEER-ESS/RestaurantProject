@@ -22,7 +22,7 @@ const HomeScreen = () => {
       <Header />
       <Search text={searchText} fun={setSearchText} />
       <ScrollView>
-        <SafeAreaView>
+        <SafeAreaView style={{paddingHorizontal: 7}}>
           {searchText === '' ? (
             <>
               <View
@@ -55,7 +55,6 @@ export default HomeScreen;
 
 const styles = StyleSheet.create({
   screenStyle: {
-    padding: 21,
     backgroundColor: '#ffffff',
     flex: 1,
   },

@@ -41,13 +41,14 @@ const RestaurantItem = ({ResPrice, flow, searchContent}) => {
               }}
               key={item.id}
               style={{
-                width: flow ? '90%' : '46%',
-                margin: 7,
-                padding: 3,
+                width: flow ? '100%' : '45%',
+                margin: flow ? 0 : 7,
+                padding: flow ? 0 : 3,
+                paddingVertical: flow ? 13 : 0,
               }}>
               <ImageBackground
                 source={{uri: item.image_url}}
-                style={styles.ImageStyle}>
+                style={[styles.ImageStyle, {height: flow ? 135 : 280}]}>
                 <Text
                   style={[
                     styles.textStyle,
@@ -78,6 +79,7 @@ export default RestaurantItem;
 const styles = StyleSheet.create({
   ImageStyle: {
     resizeMode: 'contain',
+    // height: !flow && 280,
   },
   textStyle: {
     fontSize: 23,

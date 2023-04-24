@@ -1,0 +1,13 @@
+    "coveragepathignorepatterns": [ 
+   "node_modules/(?!((jest-)?react-native|react-navigation|@react-navigation/.*))" 
+ ]
+
+"transformIgnorePatterns": [
+      "node_modules/(?!(jest-)?@?react-native|@react-native-community|@react-navigation/.*|react-native-vector-icons|react-query)"
+    ]
+
+
+  jest.mock('@react-navigation', () => ({
+    withNavigation: App => props =>
+      <App navigation={{navigate: jest.fn()}} {...props} />,
+  }));
